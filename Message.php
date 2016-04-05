@@ -100,7 +100,7 @@ class Message
 	 *
 	 * @var int
 	 */
-	private $plannedSubmissionDate = 0;
+	private $submissionDate = 0;
 
 	/**
 	 * In debug mode message will not get submitted through Goyya Mobile.
@@ -273,7 +273,7 @@ class Message
 	/**
 	 * @return boolean
 	 */
-	public function getDelayedSubmission()
+	public function hasDelayedSubmission()
 	{
 		return $this->delayedSubmission;
 	}
@@ -291,42 +291,42 @@ class Message
 	/**
 	 * @return int
 	 */
-	public function getPlannedSubmissionDate()
+	public function getSubmissionDate()
 	{
-		return $this->plannedSubmissionDate;
+		return $this->submissionDate;
 	}
 
 	/**
 	 * @return int
 	 */
-	private function getFormattedPlannedSubmissionDate()
+	private function getFormattedSubmissionDate()
 	{
-		if (!$this->getDelayedSubmission()) {
+		if (!$this->hasDelayedSubmission()) {
 			return 0;
 		}
-		$plannedSubmissionDate = strtotime($this->plannedSubmissionDate);
-		$formattedPlannedSubmissionDate = date('H', $plannedSubmissionDate);
-		$formattedPlannedSubmissionDate .= date('i', $plannedSubmissionDate);
-		$formattedPlannedSubmissionDate .= date('d', $plannedSubmissionDate);
-		$formattedPlannedSubmissionDate .= date('m', $plannedSubmissionDate);
-		$formattedPlannedSubmissionDate .= date('Y', $plannedSubmissionDate);
-		return $formattedPlannedSubmissionDate;
+		$submissionDate = strtotime($this->submissionDate);
+		$formattedSubmissionDate = date('H', $submissionDate);
+		$formattedSubmissionDate .= date('i', $submissionDate);
+		$formattedSubmissionDate .= date('d', $submissionDate);
+		$formattedSubmissionDate .= date('m', $submissionDate);
+		$formattedSubmissionDate .= date('Y', $submissionDate);
+		return $formattedSubmissionDate;
 	}
 
 	/**
-	 * @param int $plannedSubmissionDate
+	 * @param int $submissionDate
 	 * @return $this
 	 */
-	public function setPlannedSubmissionDate($plannedSubmissionDate)
+	public function setSubmissionDate($submissionDate)
 	{
-		$this->plannedSubmissionDate = $plannedSubmissionDate;
+		$this->submissionDate = $submissionDate;
 		return $this;
 	}
 
 	/**
 	 * @return boolean
 	 */
-	public function getDebugMode()
+	public function isDebugMode()
 	{
 		return $this->debugMode;
 	}
@@ -381,18 +381,18 @@ class Message
 			'msg' => utf8_decode($this->getMessage()),
 			'id' => $this->getAccountId(),
 			'pw' => $this->getAccountPassword(),
-			'time' => $this->getFormattedPlannedSubmissionDate(),
+			'time' => $this->getFormattedSubmissionDate(),
 			'msgtype' => $this->getMessageType(),
 			'getId' => 1,
 			'countMsg' => 1,
-			'test' => ($this->getDebugMode()) ? 1 : 0,
+			'test' => ($this->isDebugMode()) ? 1 : 0,
 		);
 		$requestQuery = http_build_query($requestParams);
+		$queryCombineCharacter = '?';
 		if (strpos(self::GOYYA_BASE_URL, '?') !== false) {
-			$url = self::GOYYA_BASE_URL . '&' . $requestQuery;
-		} else {
-			$url = self::GOYYA_BASE_URL . '?' . $requestQuery;
+			$queryCombineCharacter = '&';
 		}
+		$url = self::GOYYA_BASE_URL . $queryCombineCharacter . $requestQuery;
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_HTTPGET, true);
 
@@ -416,17 +416,17 @@ class Message
 			do {
 				list($responseHeader, $responseBody) = explode("\r\n\r\n", $responseBody, 2);
 				$responseHeaderLines = explode("\r\n", $responseHeader);
-				$responseHeaderHttpStatus = $responseHeaderLines[0];
-				$responseHeaderHttpStatusCode = (int)substr(
-					trim($responseHeaderHttpStatus),
-					strpos($responseHeaderHttpStatus, ' ') + 1,
+				$responseHttpStatus = $responseHeaderLines[0];
+				$responseHttpStatusCode = (int)substr(
+					trim($responseHttpStatus),
+					strpos($responseHttpStatus, ' ') + 1,
 					3
 				);
 			} while (
 				strpos($responseBody, "\r\n\r\n") !== false
 				&& (
-					!($responseHeaderHttpStatusCode >= 200 && $responseHeaderHttpStatusCode < 300)
-					|| !$responseHeaderHttpStatusCode >= 400
+					!($responseHttpStatusCode >= 200 && $responseHttpStatusCode < 300)
+					|| !$responseHttpStatusCode >= 400
 				)
 			);
 			$responseHeader = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
