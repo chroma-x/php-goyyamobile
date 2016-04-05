@@ -1,0 +1,29 @@
+{
+  "name": "markenwerk/goyyamobile",
+  "type": "library",
+  "description": "Simple API abstraction for sending single SMS via Goyya Mobile.",
+  "keywords": [
+    "SMS",
+    "Goyya"
+  ],
+  "homepage": "http://markenwerk.net/",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Martin Brecht-Precht",
+      "email": "mb@markenwerk.net",
+      "homepage": "http://markenwerk.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "GoyyaMobile\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.3"
+  },
+  "require-dev":{
+    "phpunit/phpunit": "~4.8"
+  }
+}
