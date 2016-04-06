@@ -13,7 +13,7 @@ try {
 		->setMessageType($message::MESSAGE_TYPE_OVERLONG_SMS)
 		->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
 		->setSubmissionPlan($message::PLAN_QUALITY)
-		->setReceiver('+4915123540849')
+		->setReceiver('+49151123456789')
 		->setSender('Test')
 		->submit();
 	echo 'Message ID ' . $message->getMessageId() . PHP_EOL;
