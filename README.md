@@ -86,7 +86,7 @@ The message content is set up by configuring the message type and content.
   - `GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
 - The message content is handled as defined by `setMessageType`.  
 
-> Default is `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
+> The default message type is `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
 Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
 
 ````{php}
