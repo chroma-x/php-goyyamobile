@@ -133,6 +133,7 @@ All exceptions have a specific code to allow you to handle the exceptions proper
 | NetworkException         |   40 | A curl error occurred |
 | NetworkException         |   41 | Response HTTP status code is not in the `2xx` range |
 | GoyyaException           |   42 | The Goyya Mobile provider webservice responded with an error |
+| GoyyaException           |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
 
 ## Full example
 

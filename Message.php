@@ -308,12 +308,12 @@ class Message
 			return 0;
 		}
 		$submissionDate = strtotime($this->submissionDate);
-		$formattedSubmissionDate = date('H', $submissionDate);
-		$formattedSubmissionDate .= date('i', $submissionDate);
-		$formattedSubmissionDate .= date('d', $submissionDate);
-		$formattedSubmissionDate .= date('m', $submissionDate);
-		$formattedSubmissionDate .= date('Y', $submissionDate);
-		return $formattedSubmissionDate;
+		$formattedDate = date('H', $submissionDate);
+		$formattedDate .= date('i', $submissionDate);
+		$formattedDate .= date('d', $submissionDate);
+		$formattedDate .= date('m', $submissionDate);
+		$formattedDate .= date('Y', $submissionDate);
+		return $formattedDate;
 	}
 
 	/**
@@ -365,7 +365,53 @@ class Message
 	 */
 	public function submit()
 	{
+		// Add some time to prevent timeouts
 		set_time_limit(5);
+
+		// Init curl
+		$curl = $this->getCurl();
+
+		// Execute request and parse response
+		$responseBody = curl_exec($curl);
+		$curlErrorCode = curl_errno($curl);
+		$curlError = curl_error($curl);
+		$responseStatusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
+		$responseBody = $this->parseHttpResponse($responseBody);
+
+		// Close connection
+		curl_close($curl);
+
+		// Check for errors and throw exception
+		if ($curlErrorCode > 0) {
+			throw new NetworkException('Goyya request with curl error ' . $curlError, 40);
+		}
+		if ($responseStatusCode < 200 || $responseStatusCode >= 300) {
+			throw new NetworkException('Goyya request failed with HTTP status code ' . $responseStatusCode, 41);
+		}
+		if (strpos($responseBody, 'OK') !== 0) {
+			throw new GoyyaException('Goyya request failed with response ' . $responseBody, 42);
+		}
+
+		// Extract information from response body
+		$responseBody = ltrim($responseBody, ' OK');
+		$responseBody = trim($responseBody, ' ()');
+		$responseBodyParts = explode(',', $responseBody);
+
+		// Check response
+		if (count($responseBodyParts) < 2) {
+			throw new GoyyaException('Goyya responsed with unexpected body ' . $responseBody, 43);
+		}
+
+		// Set properties from the response body
+		$this->messageId = (int)trim($responseBodyParts[0]);
+		$this->messageCount = (int)trim($responseBodyParts[1]);
+	}
+
+	/**
+	 * @return resource
+	 */
+	private function getCurl()
+	{
 		// Setup curl
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
@@ -391,11 +437,11 @@ class Message
 			'test' => ($this->isDebugMode()) ? 1 : 0,
 		);
 		$requestQuery = http_build_query($requestParams);
-		$queryCombineCharacter = '?';
+		$queryCombineChar = '?';
 		if (strpos(self::GOYYA_BASE_URL, '?') !== false) {
-			$queryCombineCharacter = '&';
+			$queryCombineChar = '&';
 		}
-		$url = self::GOYYA_BASE_URL . $queryCombineCharacter . $requestQuery;
+		$url = self::GOYYA_BASE_URL . $queryCombineChar . $requestQuery;
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_HTTPGET, true);
 
@@ -406,55 +452,37 @@ class Message
 		);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $requestHeaders);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		return $curl;
+	}
 
-		// Execute request
-		$responseBody = curl_exec($curl);
-		$curlErrorCode = curl_errno($curl);
-		$curlError = curl_error($curl);
-		$responseStatusCode = intval(curl_getinfo($curl, CURLINFO_HTTP_CODE));
-
+	/**
+	 * @param string $responseBody
+	 * @return string
+	 */
+	private function parseHttpResponse($responseBody)
+	{
 		// Parse response
 		$responseHeader = array();
 		if (strpos($responseBody, "\r\n\r\n") !== false) {
 			do {
 				list($responseHeader, $responseBody) = explode("\r\n\r\n", $responseBody, 2);
 				$responseHeaderLines = explode("\r\n", $responseHeader);
-				$responseHttpStatus = $responseHeaderLines[0];
-				$responseHttpStatusCode = (int)substr(
-					trim($responseHttpStatus),
-					strpos($responseHttpStatus, ' ') + 1,
+				$responseStatus = $responseHeaderLines[0];
+				$responseStatusCode = (int)substr(
+					trim($responseStatus),
+					strpos($responseStatus, ' ') + 1,
 					3
 				);
 			} while (
 				strpos($responseBody, "\r\n\r\n") !== false
 				&& (
-					!($responseHttpStatusCode >= 200 && $responseHttpStatusCode < 300)
-					|| !$responseHttpStatusCode >= 400
+					!($responseStatusCode >= 200 && $responseStatusCode < 300)
+					|| !$responseStatusCode >= 400
 				)
 			);
 			$responseHeader = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
 		}
-
-		// Close connection
-		curl_close($curl);
-
-		// Check for errors and throw exception
-		if ($curlErrorCode > 0) {
-			throw new NetworkException('Goyya request with curl error ' . $curlError, 40);
-		}
-		if ($responseStatusCode < 200 || $responseStatusCode >= 300) {
-			throw new NetworkException('Goyya request failed with HTTP status code ' . $responseStatusCode, 41);
-		}
-		if (strpos($responseBody, 'OK') !== 0) {
-			throw new GoyyaException('Goyya request failed with response ' . $responseBody, 42);
-		}
-
-		// Extract information from response body
-		$responseBody = ltrim($responseBody, ' OK');
-		$responseBody = trim($responseBody, ' ()');
-		$responseBodyParts = explode(',', $responseBody);
-		$this->messageId = (int)trim($responseBodyParts[0]);
-		$this->messageCount = (int)trim($responseBodyParts[1]);
+		return $responseBody;
 	}
 
 }
