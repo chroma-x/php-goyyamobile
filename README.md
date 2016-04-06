@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/markenwerk/goyyamobile/downloads)](https://packagist.org/packages/markenwerk/goyyamobile)
 [![License](https://poser.pugx.org/markenwerk/goyyamobile/license)](https://packagist.org/packages/markenwerk/goyyamobile)
 
-Simple API abstraction for sending single short messages via Goyya Mobile.
+Simple API abstraction for sending single short messages via [Goyya Mobile](https://www.goyya.com).
 
 
 ## Installation
