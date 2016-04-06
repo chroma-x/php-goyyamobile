@@ -168,6 +168,12 @@ try {
 }
 ````
 
+## TODOs
+
+- Decorate the code base with some unit tests.
+- Publish contribution guidelines.
+- Extend the basic API by some other useful methods like removing pending messages and sending bulk messages.
+
 ## License
 
 Goyya Mobile simple API is under the MIT license.
