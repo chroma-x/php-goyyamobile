@@ -10,8 +10,7 @@ Simple API abstraction for sending single short messages via Goyya Mobile.
 
 ## Installation
 
-````
-{json}
+````{json}
 {
    	"require": {
         "markenwerk/goyyamobile": "~0.0"
@@ -23,8 +22,7 @@ Simple API abstraction for sending single short messages via Goyya Mobile.
 
 ### Autoloading and namesapce
 
-````
-{php}  
+````{php}  
 require_once('path/to/vendor/autoload.php');
 ````
 
@@ -36,8 +34,7 @@ require_once('path/to/vendor/autoload.php');
 
 Authentication against the Goyya Mobile webservice requires a valid account ID and password. 
 
-````
-{php}
+````{php}
 $shortMessage = new GoyyaMobile\Message();
 $shortMessage
 	->setAccountId('GOYYA_ACCOUNT_ID')
@@ -50,8 +47,7 @@ If you enable the debug mode your messages will get submitted to your Goyya Mobi
 
 > By default the debug mode is disabled.
 
-````
-{php}
+````{php}
 $shortMessage->setDebugMode(true);
 ````
 
@@ -71,8 +67,7 @@ Settings up the meta data requires the following properties.
   - `GoyyaMobile\Message::PLAN_QUALITY`
   > Default is `GoyyaMobile\Message::PLAN_BASIC`.
 
-````
-{php}
+````{php}
 $shortMessage
 	->setReceiver('RECEIVER_MOBILE_NUMBER')
 	->setSender('SENDER_NAME_OR_MOBILE_NUMBER')
@@ -93,8 +88,7 @@ The message content is set up by configuring the message type and content.
 - The message content is handled as defined by `setMessageType`.  
   > Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
 
-````
-{php}
+````{php}
 $shortMessage
 	->setMessageType(GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 	->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~');
@@ -104,8 +98,7 @@ $shortMessage
 
 The message gets submitted by calling the `submit` method. 
 
-````
-{php}
+````{php}
 $shortMessage->submit();
 ````
 
@@ -113,8 +106,7 @@ $shortMessage->submit();
 
 After a successful submission the Goyya Mobile message ID and the effective number of messages submitted are available. 
 
-````
-{php}
+````{php}
 $messageId = $shortMessage->getMessageId();
 $messageCount = $shortMessage->getMessageCount();
 ````
@@ -143,8 +135,7 @@ All exceptions have a specific code to allow you to handle the exceptions proper
 
 ## Full example
 
-````
-{php}
+````{php}
 require_once('path/to/vendor/autoload.php');
 
 try {
