@@ -140,7 +140,10 @@ class Message
 	{
 		$receiver = str_replace('+', '00', $receiver);
 		if (strpos($receiver, '00') !== 0) {
-			throw new InvalidArgumentException('Receiver is invalid');
+			throw new InvalidArgumentException('Receiver is invalid', 10);
+		}
+		if (!ctype_digit($receiver)) {
+			throw new InvalidArgumentException('Receiver is invalid', 11);
 		}
 		$this->receiver = $receiver;
 		return $this;
@@ -165,12 +168,12 @@ class Message
 			$sender = '00' . substr($sender, 1);
 		}
 		if (preg_match("/^[a-zA-Z0-9]+$/", $sender) !== 1) {
-			throw new InvalidArgumentException('Sender contains invalid characters');
+			throw new InvalidArgumentException('Sender contains invalid characters', 20);
 		}
-		if (ctype_digit($sender) && mb_strlen($sender) > 16) {
-			throw new InvalidArgumentException('Sender longer than 16 numeric digits');
-		} else if (mb_strlen($sender) > 11) {
-			throw new InvalidArgumentException('Sender longer than 11 alphanumeric characters');
+		if (ctype_digit($sender) && strlen($sender) > 16) {
+			throw new InvalidArgumentException('Sender longer than 16 numeric digits', 21);
+		} else if (strlen($sender) > 11) {
+			throw new InvalidArgumentException('Sender longer than 11 alphanumeric characters', 22);
 		}
 		$this->sender = $sender;
 		return $this;
@@ -192,7 +195,7 @@ class Message
 	public function setMessage($message)
 	{
 		if ($this->getMessageType() == self::MESSAGE_TYPE_TEXT_SMS && strlen($message) > 160) {
-			throw new InvalidArgumentException('Message too long for type text SMS');
+			throw new InvalidArgumentException('Message too long for type text SMS', 30);
 		}
 		$this->message = $message;
 		return $this;
@@ -437,13 +440,13 @@ class Message
 
 		// Check for errors and throw exception
 		if ($curlErrorCode > 0) {
-			throw new NetworkException('Goyya request with curl error ' . $curlError);
+			throw new NetworkException('Goyya request with curl error ' . $curlError, 40);
 		}
 		if ($responseStatusCode < 200 || $responseStatusCode >= 300) {
-			throw new NetworkException('Goyya request failed with HTTP status code ' . $responseStatusCode);
+			throw new NetworkException('Goyya request failed with HTTP status code ' . $responseStatusCode, 41);
 		}
 		if (strpos($responseBody, 'OK') !== 0) {
-			throw new GoyyaException('Goyya request failed with response ' . $responseBody);
+			throw new GoyyaException('Goyya request failed with response ' . $responseBody, 42);
 		}
 
 		// Extract information from response body
