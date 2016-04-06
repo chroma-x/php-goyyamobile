@@ -155,8 +155,8 @@ try {
 		->setMessageType(GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 		->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
 		->submit();
-	echo 'Message ID ' . $message->getMessageId() . PHP_EOL;
-	echo 'Message count ' . $message->getMessageCount() . PHP_EOL;
+	echo 'Message ID ' . $shortMessage->getMessageId() . PHP_EOL;
+	echo 'Message count ' . $shortMessage->getMessageCount() . PHP_EOL;
 } catch (GoyyaMobile\Exception\InvalidArgumentException $exception) {
 	echo $exception->getMessage() . PHP_EOL;
 	echo $exception->getCode() . PHP_EOL;
