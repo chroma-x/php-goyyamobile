@@ -57,15 +57,15 @@ Settings up the meta data requires the following properties.
 
 - The receivers mobile number in international format, f.e. `+4915112345678`
 - The senders name or mobile number in international format. Sender information should contain characters [a-z,A-Z,0-9] without whitepace only. Mobile numbers are allowed up to a length of 16 digits whith leading `00`. Sender names are allowed up to a length of 11 bytes.   
-  > **Attention:**  
-  Check your plan to make sure you are allowed to send short messages using a name instead of a mobile number. 
 - If you want to delay the submission of the short message to a specific time, you can set the desired time by calling `setSubmissionDate(YOUR_DESIRED_TIMESTAMP)`method and enable the delayed submission by calling `setDelayedSubmission(true)`.  
-  > By default the delayed submission if disabled.
 - If your account is not bound to a specific plan, you can choose the plan you want to use (and pay) message wise. Call the `setSubmissionPlan` method with one of the following class constants as argument.  
   - `GoyyaMobile\Message::PLAN_BASIC`
   - `GoyyaMobile\Message::PLAN_ECONOMY`
   - `GoyyaMobile\Message::PLAN_QUALITY`
-  > Default is `GoyyaMobile\Message::PLAN_BASIC`.
+
+> **Attention:** Check your plan to make sure you are allowed to send short messages using a name instead of a mobile number.   
+  By default the delayed submission if disabled.  
+  The default plan is `GoyyaMobile\Message::PLAN_BASIC`.
 
 ````{php}
 $shortMessage
@@ -84,9 +84,10 @@ The message content is set up by configuring the message type and content.
   - `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` allows sending 160 bytes. Setting content above this range throws an `GoyyaMobile\Exception\InvalidArgumentException`. 
   - `GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS` allows sending more than 160 bytes. If neccessary the content is submitted in multiple messages.  
   - `GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
-  > Default is `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.
 - The message content is handled as defined by `setMessageType`.  
-  > Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
+
+> Default is `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
+Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
 
 ````{php}
 $shortMessage
