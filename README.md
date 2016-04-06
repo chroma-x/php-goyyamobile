@@ -13,7 +13,7 @@ Simple API abstraction for sending single short messages via [Goyya Mobile](http
 ````{json}
 {
    	"require": {
-        "markenwerk/goyyamobile": "~0.0"
+        "markenwerk/goyyamobile": "~1.0"
     }
 }
 ````
