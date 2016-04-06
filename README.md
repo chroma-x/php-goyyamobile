@@ -123,7 +123,7 @@ Goyya Mobile simple API provides three different types of exceptions.
 All exceptions have a specific code to allow you to handle the exceptions properly. 
 
 | Exception                | Code | Description |
-| ------------------------ | ---: | ----------- |
+| :----------------------- | ---: | :---------- |
 | InvalidArgumentException |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
 | InvalidArgumentException |   11 | Receiver is no valid international mobile number; does contain non digit characters |
 | InvalidArgumentException |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
