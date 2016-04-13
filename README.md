@@ -169,6 +169,11 @@ try {
 }
 ````
 
+## Contribution
+
+Contributing to our projects is always very appreciated.  
+**But: please follow the contribution guidelines written down in the `CONTRIBUTING.md` document.**
+
 ## TODOs
 
 - Decorate the code base with some unit tests.
