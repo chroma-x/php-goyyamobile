@@ -17,6 +17,3 @@ install:
 matrix:
   allow_failures:
     - php: hhvm
-
-script:
-  - bin/atoum --test-all
