@@ -1,5 +1,6 @@
 # PHP Goyya Mobile simple API
 
+[![Build Status](https://travis-ci.org/markenwerk/php-goyyamobile.svg?branch=master)](https://travis-ci.org/markenwerk/php-goyyamobile)
 [![Code Climate](https://codeclimate.com/github/markenwerk/php-goyyamobile/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-goyyamobile)
 [![Latest Stable Version](https://poser.pugx.org/markenwerk/goyyamobile/v/stable)](https://packagist.org/packages/markenwerk/goyyamobile)
 [![Total Downloads](https://poser.pugx.org/markenwerk/goyyamobile/downloads)](https://packagist.org/packages/markenwerk/goyyamobile)
