@@ -14,6 +14,16 @@ php:
 install:
   - composer install
 
+before_script:
+  - mkdir -p build/logs
+
+script:
+  - phpunit --coverage-clover build/logs/clover.xml
+
 matrix:
   allow_failures:
     - php: hhvm
+
+addons:
+    code_climate:
+        repo_token: 0c342e0c8e71f2b50f20d5bc46b8de051e52194e1ed55f810eb6091a8151fbb7
