@@ -13,7 +13,7 @@ Simple API abstraction for sending single short messages via [Goyya Mobile](http
 ````{json}
 {
    	"require": {
-        "markenwerk/goyyamobile": "~1.0"
+        "markenwerk/goyyamobile": "~2.0"
     }
 }
 ````
@@ -116,7 +116,7 @@ $messageCount = $shortMessage->getMessageCount();
 
 Goyya Mobile simple API provides three different types of exceptions. 
 
-- `GoyyaMobile\Exception\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
+- `\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
 - `GoyyaMobile\Exception\NetworkException` is thrown if curling the webservice of your Goyya Mobile provider fails. 
 - `GoyyaMobile\Exception\GoyyaException` is thrown if the webservice of your Goyya Mobile provider returns an error. 
 
@@ -156,7 +156,7 @@ try {
 		->submit();
 	echo 'Message ID ' . $shortMessage->getMessageId() . PHP_EOL;
 	echo 'Message count ' . $shortMessage->getMessageCount() . PHP_EOL;
-} catch (GoyyaMobile\Exception\InvalidArgumentException $exception) {
+} catch (\InvalidArgumentException $exception) {
 	echo $exception->getMessage() . PHP_EOL;
 	echo $exception->getCode() . PHP_EOL;
 } catch (GoyyaMobile\Exception\NetworkException $exception) {
@@ -175,7 +175,7 @@ Contributing to our projects is always very appreciated.
 
 ## TODOs
 
-- Decorate the code base with some unit tests.
+- ~~Decorate the code base with some unit tests.~~
 - ~~Publish contribution guidelines.~~
 - Extend the basic API by some other useful methods like removing pending messages and sending bulk messages.
 

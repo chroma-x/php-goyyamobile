@@ -3,7 +3,6 @@
 namespace GoyyaMobile;
 
 use GoyyaMobile\Exception\GoyyaException;
-use GoyyaMobile\Exception\InvalidArgumentException;
 use GoyyaMobile\Exception\NetworkException;
 
 /**
@@ -134,16 +133,16 @@ class Message
 	/**
 	 * @param string $receiver
 	 * @return $this
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setReceiver($receiver)
 	{
 		$receiver = str_replace('+', '00', $receiver);
 		if (strpos($receiver, '00') !== 0) {
-			throw new InvalidArgumentException('Receiver is invalid', 10);
+			throw new \InvalidArgumentException('Receiver is invalid', 10);
 		}
 		if (!ctype_digit($receiver)) {
-			throw new InvalidArgumentException('Receiver is invalid', 11);
+			throw new \InvalidArgumentException('Receiver is invalid', 11);
 		}
 		$this->receiver = $receiver;
 		return $this;
@@ -160,7 +159,7 @@ class Message
 	/**
 	 * @param string $sender
 	 * @return $this
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setSender($sender)
 	{
@@ -168,12 +167,12 @@ class Message
 			$sender = '00' . substr($sender, 1);
 		}
 		if (preg_match("/^[a-zA-Z0-9]+$/", $sender) !== 1) {
-			throw new InvalidArgumentException('Sender contains invalid characters', 20);
+			throw new \InvalidArgumentException('Sender contains invalid characters', 20);
 		}
 		if (ctype_digit($sender) && strlen($sender) > 16) {
-			throw new InvalidArgumentException('Sender longer than 16 numeric digits', 21);
+			throw new \InvalidArgumentException('Sender longer than 16 numeric digits', 21);
 		} else if (strlen($sender) > 11) {
-			throw new InvalidArgumentException('Sender longer than 11 alphanumeric characters', 22);
+			throw new \InvalidArgumentException('Sender longer than 11 alphanumeric characters', 22);
 		}
 		$this->sender = $sender;
 		return $this;
@@ -190,12 +189,12 @@ class Message
 	/**
 	 * @param string $message
 	 * @return $this
-	 * @throws InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
 	public function setMessage($message)
 	{
 		if ($this->getMessageType() == self::MESSAGE_TYPE_TEXT_SMS && strlen($message) > 160) {
-			throw new InvalidArgumentException('Message too long for type text SMS', 30);
+			throw new \InvalidArgumentException('Message too long for type text SMS', 30);
 		}
 		$this->message = $message;
 		return $this;
