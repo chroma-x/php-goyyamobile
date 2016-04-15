@@ -11,6 +11,14 @@ php:
   - '7.0'
   - hhvm
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
+addons:
+    code_climate:
+        repo_token: 0c342e0c8e71f2b50f20d5bc46b8de051e52194e1ed55f810eb6091a8151fbb7
+
 install:
   - composer install
 
@@ -20,10 +28,5 @@ before_script:
 script:
   - phpunit --coverage-clover build/logs/clover.xml
 
-matrix:
-  allow_failures:
-    - php: hhvm
-
-addons:
-    code_climate:
-        repo_token: 0c342e0c8e71f2b50f20d5bc46b8de051e52194e1ed55f810eb6091a8151fbb7
+after_success:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then CODECLIMATE_REPO_TOKEN=0c342e0c8e71f2b50f20d5bc46b8de051e52194e1ed55f810eb6091a8151fbb7 ./vendor/bin/test-reporter; fi;'
