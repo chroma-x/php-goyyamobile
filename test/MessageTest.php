@@ -33,9 +33,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->setExpectedException(get_class(new \InvalidArgumentException()));
 		$message = new Message();
 		// Phone number too long
-		$message->setSender('+49151123456789012');
+		$message->setSender('0049151123456789012');
 		// String too long
-		$message->setSender('this-string-is-longer-than-sixteen-characters');
+		$message->setSender('this-string-is-longer-than-eleven-characters');
 		// String contains invalid characters
 		$message->setSender('äöü');
 	}
@@ -43,8 +43,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 	public function testSetSenderValid()
 	{
 		$message = new Message();
-		$message->setSender('01511234567');
-		$this->assertEquals('01511234567', $message->getSender());
+		$message->setSender('+4915112345678');
+		$this->assertEquals('004915112345678', $message->getSender());
 		$message->setSender('Sendername');
 		$this->assertEquals('Sendername', $message->getSender());
 	}
@@ -68,6 +68,25 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 			->setMessageType(Message::MESSAGE_TYPE_OVERLONG_SMS)
 			->setMessage($longTestMessage);
 		$this->assertEquals($longTestMessage, $message->getMessage());
+	}
+
+	public function testConfigure()
+	{
+		$message = new Message();
+		$message
+			->setAccountId('YOUR_ACCOUNT_ID')
+			->setAccountPassword('YOUR_ACCOUNT_PASSWORD')
+			->setDebugMode(false)
+			->setDelayedSubmission(true)
+			->setSubmissionDate(strtotime('2020-01-01 12:00:00'))
+			->setMessageType($message::MESSAGE_TYPE_OVERLONG_SMS)
+			->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
+			->setSubmissionPlan($message::PLAN_QUALITY)
+			->setReceiver('+49151123456789')
+			->setSender('Test');
+		$this->assertEquals(Message::PLAN_QUALITY, $message->getSubmissionPlan());
+		$this->assertEquals(true, $message->hasDelayedSubmission());
+		$this->assertEquals(strtotime('2020-01-01 12:00:00'), $message->getSubmissionDate());
 	}
 
 	public function testSubmit()

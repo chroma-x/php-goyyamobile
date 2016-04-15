@@ -169,8 +169,10 @@ class Message
 		if (preg_match("/^[a-zA-Z0-9]+$/", $sender) !== 1) {
 			throw new \InvalidArgumentException('Sender contains invalid characters', 20);
 		}
-		if (ctype_digit($sender) && strlen($sender) > 16) {
-			throw new \InvalidArgumentException('Sender longer than 16 numeric digits', 21);
+		if (ctype_digit($sender)) {
+			if (strlen($sender) > 16) {
+				throw new \InvalidArgumentException('Sender longer than 16 numeric digits', 21);
+			}
 		} else if (strlen($sender) > 11) {
 			throw new \InvalidArgumentException('Sender longer than 11 alphanumeric characters', 22);
 		}
