@@ -85,7 +85,7 @@ git clone git@github.com:yourname/php-goyyamobile
 
 ```
 cd php-goyyamobile
-git checkout -b foo-the-bars 2.0
+git checkout -b feature-awesome-feature 2.0.3
 ```
 
 ### Making your Changes
