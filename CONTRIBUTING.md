@@ -70,7 +70,7 @@ We’ve found that test-first development really helps make features better arch
 
 ## Full example
 
-Here’s an example workflow for `php-goyyamobile` hosted on Github, which is currently in version 2.0.x. Your username is `yourname` and you’re submitting a basic bugfix. 
+Here’s an example workflow for `php-goyyamobile` hosted on Github, which is currently in version 2.0.3. Your username is `yourname` and you’re submitting a basic bugfix. 
 
 ### Preparing your Fork
 
@@ -85,7 +85,7 @@ git clone git@github.com:yourname/php-goyyamobile
 
 ```
 cd php-goyyamobile
-git checkout -b feature-awesome-feature 2.0.3
+git checkout -b fix-issue-269 2.0.3
 ```
 
 ### Making your Changes
