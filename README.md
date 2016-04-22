@@ -173,7 +173,7 @@ try {
 ## Contribution
 
 Contributing to our projects is always very appreciated.  
-**But: please follow the contribution guidelines written down in the `CONTRIBUTING.md` document.**
+**But: please follow the contribution guidelines written down in the [CONTRIBUTING.md](https://github.com/markenwerk/php-goyyamobile/blob/master/CONTRIBUTING.md) document.**
 
 ## TODOs
 
@@ -183,4 +183,4 @@ Contributing to our projects is always very appreciated.
 
 ## License
 
-Goyya Mobile simple API is under the MIT license.
+PHP Goyya Mobile simple API is under the MIT license.
