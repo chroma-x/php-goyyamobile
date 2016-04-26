@@ -48,9 +48,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->setExpectedException(get_class(new \InvalidArgumentException()));
 		$message = new Message();
 		// String too long
-		$message->setSender('this-string-is-longer-than-eleven-characters');
-		// String contains invalid characters
-		$message->setSender('äöü');
+		$message->setSender('thisstringislongerthanelevencharacters');
 	}
 
 	public function testSetSenderInvalid3()
