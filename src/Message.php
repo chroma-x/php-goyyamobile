@@ -2,8 +2,7 @@
 
 namespace GoyyaMobile;
 
-use GoyyaMobile\Exception\GoyyaException;
-use GoyyaMobile\Exception\NetworkException;
+use CommonException;
 
 /**
  * Class GoyyaMobile
@@ -384,13 +383,17 @@ class Message
 
 		// Check for errors and throw exception
 		if ($curlErrorCode > 0) {
-			throw new NetworkException('Goyya request with curl error ' . $curlError, 40);
+			throw new CommonException\NetworkException\CurlException('Goyya request with curl error ' . $curlError, 40);
 		}
 		if ($responseStatusCode < 200 || $responseStatusCode >= 300) {
-			throw new NetworkException('Goyya request failed with HTTP status code ' . $responseStatusCode, 41);
+			throw new CommonException\ApiException\InvalidResponseException(
+				'Goyya request failed with HTTP status code ' . $responseStatusCode, 41
+			);
 		}
 		if (strpos($responseBody, 'OK') !== 0) {
-			throw new GoyyaException('Goyya request failed with response ' . $responseBody, 42);
+			throw new CommonException\ApiException\Base\ApiException(
+				'Goyya request failed with response ' . $responseBody, 42
+			);
 		}
 
 		// Extract information from response body
@@ -400,7 +403,9 @@ class Message
 
 		// Check response
 		if (count($responseBodyParts) < 2) {
-			throw new GoyyaException('Goyya responsed with unexpected body ' . $responseBody, 43);
+			throw new CommonException\ApiException\UnexpectedResponseException(
+				'Goyya responsed with unexpected body ' . $responseBody, 43
+			);
 		}
 
 		// Set properties from the response body

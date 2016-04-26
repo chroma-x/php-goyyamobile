@@ -2,7 +2,7 @@
 
 namespace GoyyaMobile;
 
-use GoyyaMobile\Exception\GoyyaException;
+use CommonException;
 
 /**
  * Class MessageTest
@@ -89,9 +89,30 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(strtotime('2020-01-01 12:00:00'), $message->getSubmissionDate());
 	}
 
-	public function testSubmit()
+	public function testSubmitSuccess()
 	{
-		$this->setExpectedException(get_class(new GoyyaException()));
+		$goyyaAccountId = getenv('GOYYA_MOBILE_ACCOUNT_ID');
+		$goyyaPassword = getenv('GOYYA_MOBILE_PASSWORD');
+		if ($goyyaAccountId === false || $goyyaPassword === false) {
+			$this->markTestSkipped('Submission test was skipped. No Goyya credentials found.');
+		}
+		$message = new Message();
+		$message
+			->setAccountId($goyyaAccountId)
+			->setAccountPassword($goyyaPassword)
+			->setDebugMode(true)
+			->setDelayedSubmission(false)
+			->setMessageType($message::MESSAGE_TYPE_TEXT_SMS)
+			->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
+			->setSubmissionPlan($message::PLAN_QUALITY)
+			->setReceiver('+49151123456789')
+			->setSender('Test')
+			->submit();
+	}
+
+	public function testSubmitFailed()
+	{
+		$this->setExpectedException(get_class(new CommonException\ApiException\Base\ApiException()));
 		$message = new Message();
 		$message
 			->setAccountId('YOUR_ACCOUNT_ID')

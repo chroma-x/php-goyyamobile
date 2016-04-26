@@ -116,31 +116,34 @@ $messageCount = $shortMessage->getMessageCount();
 
 ## Exception handling
 
-Goyya Mobile simple API provides three different types of exceptions. 
+Goyya Mobile simple API provides different types of exceptions. 
 
-- `\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
-- `GoyyaMobile\Exception\NetworkException` is thrown if curling the webservice of your Goyya Mobile provider fails. 
-- `GoyyaMobile\Exception\GoyyaException` is thrown if the webservice of your Goyya Mobile provider returns an error. 
+- `InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
+- `CommonException` sub class exceptions get thrown if curling the webservice of your Goyya Mobile provider fails for any reason. 
+
+You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
 
 All exceptions have a specific code to allow you to handle the exceptions properly. 
 
-| Exception                | Code | Description |
-| :----------------------- | ---: | :---------- |
-| InvalidArgumentException |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
-| InvalidArgumentException |   11 | Receiver is no valid international mobile number; does contain non digit characters |
-| InvalidArgumentException |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
-| InvalidArgumentException |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
-| InvalidArgumentException |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
-| InvalidArgumentException |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
-| NetworkException         |   40 | A curl error occurred |
-| NetworkException         |   41 | Response HTTP status code is not in the `2xx` range |
-| GoyyaException           |   42 | The Goyya Mobile provider webservice responded with an error |
-| GoyyaException           |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
+| Exception                                                | Code | Description |
+| :------------------------------------------------------- | ---: | :---------- |
+| InvalidArgumentException                                 |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
+| InvalidArgumentException                                 |   11 | Receiver is no valid international mobile number; does contain non digit characters |
+| InvalidArgumentException                                 |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
+| InvalidArgumentException                                 |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
+| InvalidArgumentException                                 |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
+| InvalidArgumentException                                 |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
+| CommonException\NetworkException\CurlException           |   40 | A curl error occurred |
+| CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
+| CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
+| CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
 
 ## Full example
 
 ````{php}
 require_once('path/to/vendor/autoload.php');
+
+use CommonException;
 
 try {
 	$shortMessage = new GoyyaMobile\Message();
@@ -161,10 +164,10 @@ try {
 } catch (\InvalidArgumentException $exception) {
 	echo $exception->getMessage() . PHP_EOL;
 	echo $exception->getCode() . PHP_EOL;
-} catch (GoyyaMobile\Exception\NetworkException $exception) {
+} catch (CommonException\NetworkException\Base\NetworkException $exception) {
 	echo $exception->getMessage() . PHP_EOL;
 	echo $exception->getCode() . PHP_EOL;
-} catch (GoyyaMobile\Exception\GoyyaException $exception) {
+} catch (CommonException\ApiException\Base\ApiException $exception) {
 	echo $exception->getMessage() . PHP_EOL;
 	echo $exception->getCode() . PHP_EOL;
 }
