@@ -12,11 +12,18 @@ use CommonException;
 class MessageTest extends \PHPUnit_Framework_TestCase
 {
 
-	public function testSetReceiverInvalid()
+	public function testSetReceiverInvalid1()
 	{
 		$this->setExpectedException(get_class(new \InvalidArgumentException()));
 		$message = new Message();
 		$message->setReceiver('this-is-invalid');
+	}
+
+	public function testSetReceiverInvalid2()
+	{
+		$this->setExpectedException(get_class(new \InvalidArgumentException()));
+		$message = new Message();
+		$message->setReceiver('00-this-is-invalid');
 	}
 
 	public function testSetReceiverValid()
@@ -28,14 +35,28 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('004915112345678', $message->getReceiver());
 	}
 
-	public function testSetSenderInvalid()
+	public function testSetSenderInvalid1()
 	{
 		$this->setExpectedException(get_class(new \InvalidArgumentException()));
 		$message = new Message();
 		// Phone number too long
 		$message->setSender('0049151123456789012');
+	}
+
+	public function testSetSenderInvalid2()
+	{
+		$this->setExpectedException(get_class(new \InvalidArgumentException()));
+		$message = new Message();
 		// String too long
 		$message->setSender('this-string-is-longer-than-eleven-characters');
+		// String contains invalid characters
+		$message->setSender('äöü');
+	}
+
+	public function testSetSenderInvalid3()
+	{
+		$this->setExpectedException(get_class(new \InvalidArgumentException()));
+		$message = new Message();
 		// String contains invalid characters
 		$message->setSender('äöü');
 	}
