@@ -91,6 +91,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 
 	public function testSubmitSuccess()
 	{
+		$performTest = getenv('PERFORM_SUBMISSION_TEST');
+		if ((int)$performTest !== 1) {
+			$this->markTestSkipped('Submission test was skipped by environment.');
+		}
 		$goyyaAccountId = getenv('GOYYA_MOBILE_ACCOUNT_ID');
 		$goyyaPassword = getenv('GOYYA_MOBILE_PASSWORD');
 		if ($goyyaAccountId === false || $goyyaPassword === false) {

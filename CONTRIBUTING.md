@@ -72,10 +72,11 @@ We’ve found that test-first development really helps make features better arch
 
 Sometimes tests need some extra information gathered from environment variables. Please setup the following environment variables in your test setup. PHPUnit and Travis allow to simply adding them to test environment. 
 
-| Environment variable name | Description                  |
-| ------------------------- | ---------------------------- |
-| GOYYA_MOBILE_ACCOUNT_ID   | Your Goyya Mobile account ID |
-| GOYYA_MOBILE_PASSWORD     | Your Goyya Mobile password   |
+| Environment variable name | Description                                                           |
+| ------------------------- | --------------------------------------------------------------------- |
+| PERFORM_SUBMISSION_TEST   | Whether to perform the submission test; allowed values are `0` and `1`|
+| GOYYA_MOBILE_ACCOUNT_ID   | Your Goyya Mobile account ID                                          |
+| GOYYA_MOBILE_PASSWORD     | Your Goyya Mobile password                                            |
 
 ## Full example
 

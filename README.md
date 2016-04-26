@@ -182,6 +182,7 @@ Contributing to our projects is always very appreciated.
 
 - ~~Decorate the code base with some unit tests.~~
 - ~~Publish contribution guidelines.~~
+- Add TokenAuth based authentication instead of using account ID and password as credentials.
 - Extend the basic API by some other useful methods like removing pending messages and sending bulk messages.
 
 ## License
