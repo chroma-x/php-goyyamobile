@@ -16,7 +16,7 @@ Simple API abstraction for sending single short messages via [Goyya Mobile](http
 ````{json}
 {
    	"require": {
-        "markenwerk/goyyamobile": "~2.0"
+        "markenwerk/goyyamobile": "~3.0"
     }
 }
 ````
@@ -38,7 +38,7 @@ require_once('path/to/vendor/autoload.php');
 Authentication against the Goyya Mobile webservice requires a valid account ID and password. 
 
 ````{php}
-$shortMessage = new GoyyaMobile\Message();
+$shortMessage = new Markenwerk\GoyyaMobile\Message();
 $shortMessage
 	->setAccountId('GOYYA_ACCOUNT_ID')
 	->setAccountPassword('GOYYA_ACCOUNT_PASSWORD');
@@ -62,13 +62,13 @@ Settings up the meta data requires the following properties.
 - The senders name or mobile number in international format. Sender information should contain characters [a-z,A-Z,0-9] without whitepace only. Mobile numbers are allowed up to a length of 16 digits whith leading `00`. Sender names are allowed up to a length of 11 bytes.   
 - If you want to delay the submission of the short message to a specific time, you can set the desired time by calling `setSubmissionDate(YOUR_DESIRED_TIMESTAMP)`method and enable the delayed submission by calling `setDelayedSubmission(true)`.  
 - If your account is not bound to a specific plan, you can choose the plan you want to use (and pay) message wise. Call the `setSubmissionPlan` method with one of the following class constants as argument.  
-  - `GoyyaMobile\Message::PLAN_BASIC`
-  - `GoyyaMobile\Message::PLAN_ECONOMY`
-  - `GoyyaMobile\Message::PLAN_QUALITY`
+  - `Markenwerk\GoyyaMobile\Message::PLAN_BASIC`
+  - `Markenwerk\GoyyaMobile\Message::PLAN_ECONOMY`
+  - `Markenwerk\GoyyaMobile\Message::PLAN_QUALITY`
 
 > **Attention:** Check your plan to make sure you are allowed to send short messages using a name instead of a mobile number.   
   By default the delayed submission if disabled.  
-  The default plan is `GoyyaMobile\Message::PLAN_BASIC`.
+  The default plan is `Markenwerk\GoyyaMobile\Message::PLAN_BASIC`.
 
 ````{php}
 $shortMessage
@@ -76,7 +76,7 @@ $shortMessage
 	->setSender('SENDER_NAME_OR_MOBILE_NUMBER')
 	->setDelayedSubmission(true)
 	->setSubmissionDate(strtotime('+6 hours'))
-	->setSubmissionPlan(GoyyaMobile\Message::PLAN_QUALITY);
+	->setSubmissionPlan(Markenwerk\GoyyaMobile\Message::PLAN_QUALITY);
 ````
 
 #### Setting up the message content
@@ -84,17 +84,17 @@ $shortMessage
 The message content is set up by configuring the message type and content. 
 
 - The message type defines how the content is handled. Call the `setMessageType` method with one of the following class constants to control how the messages content should get delivered. 
-  - `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` allows sending 160 bytes. Setting content above this range throws an `GoyyaMobile\Exception\InvalidArgumentException`. 
-  - `GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS` allows sending more than 160 bytes. If neccessary the content is submitted in multiple messages.  
-  - `GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
+  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` allows sending 160 bytes. Setting content above this range throws an `Markenwerk\GoyyaMobile\Exception\InvalidArgumentException`. 
+  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS` allows sending more than 160 bytes. If neccessary the content is submitted in multiple messages.  
+  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
 - The message content is handled as defined by `setMessageType`.  
 
-> The default message type is `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
+> The default message type is `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
 Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
 
 ````{php}
 $shortMessage
-	->setMessageType(GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
+	->setMessageType(Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 	->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~');
 ````
 
@@ -119,8 +119,8 @@ $messageCount = $shortMessage->getMessageCount();
 
 Goyya Mobile simple API provides different types of exceptions. 
 
-- `InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
-- `CommonException` sub class exceptions get thrown if curling the webservice of your Goyya Mobile provider fails for any reason. 
+- `\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
+- `Markenwerk\CommonException` sub class exceptions get thrown if curling the webservice of your Goyya Mobile provider fails for any reason. 
 
 You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
 
@@ -128,26 +128,26 @@ All exceptions have a specific code to allow you to handle the exceptions proper
 
 | Exception                                                | Code | Description |
 | :------------------------------------------------------- | ---: | :---------- |
-| InvalidArgumentException                                 |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
-| InvalidArgumentException                                 |   11 | Receiver is no valid international mobile number; does contain non digit characters |
-| InvalidArgumentException                                 |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
-| InvalidArgumentException                                 |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
-| InvalidArgumentException                                 |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
-| InvalidArgumentException                                 |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
-| CommonException\NetworkException\CurlException           |   40 | A curl error occurred |
-| CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
-| CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
-| CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
+| \InvalidArgumentException                                 |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
+| \InvalidArgumentException                                 |   11 | Receiver is no valid international mobile number; does contain non digit characters |
+| \InvalidArgumentException                                 |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
+| \InvalidArgumentException                                 |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
+| \InvalidArgumentException                                 |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
+| \InvalidArgumentException                                 |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
+| Markenwerk\CommonException\NetworkException\CurlException           |   40 | A curl error occurred |
+| Markenwerk\CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
+| Markenwerk\CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
+| Markenwerk\CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
 
 ## Full example
 
 ````{php}
 require_once('path/to/vendor/autoload.php');
 
-use CommonException;
+use Markenwerk\CommonException;
 
 try {
-	$shortMessage = new GoyyaMobile\Message();
+	$shortMessage = new Markenwerk\GoyyaMobile\Message();
 	$shortMessage
 		->setAccountId('GOYYA_ACCOUNT_ID')
 		->setAccountPassword('GOYYA_ACCOUNT_PASSWORD')
@@ -156,8 +156,8 @@ try {
 		->setSender('SENDER_NAME_OR_MOBILE_NUMBER')
 		->setDelayedSubmission(true)
 		->setSubmissionDate(strtotime('+6 hours'))
-		->setSubmissionPlan(GoyyaMobile\Message::PLAN_QUALITY)
-		->setMessageType(GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
+		->setSubmissionPlan(Markenwerk\GoyyaMobile\Message::PLAN_QUALITY)
+		->setMessageType(Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 		->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
 		->submit();
 	echo 'Message ID ' . $shortMessage->getMessageId() . PHP_EOL;

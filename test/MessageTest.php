@@ -1,8 +1,8 @@
 <?php
 
-namespace GoyyaMobile;
+namespace Markenwerk\GoyyaMobile;
 
-use CommonException;
+use Markenwerk\CommonException;
 
 /**
  * Class MessageTest

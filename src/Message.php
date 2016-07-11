@@ -1,8 +1,8 @@
 <?php
 
-namespace GoyyaMobile;
+namespace Markenwerk\GoyyaMobile;
 
-use CommonException;
+use Markenwerk\CommonException;
 
 /**
  * Class GoyyaMobile
@@ -468,6 +468,7 @@ class Message
 	private function parseHttpResponse($responseBody)
 	{
 		// Parse response
+		/** @noinspection PhpUnusedLocalVariableInspection */
 		$responseHeader = array();
 		if (strpos($responseBody, "\r\n\r\n") !== false) {
 			do {
@@ -486,6 +487,7 @@ class Message
 					|| !$responseStatusCode >= 400
 				)
 			);
+			/** @noinspection PhpUnusedLocalVariableInspection */
 			$responseHeader = preg_split('/\r\n/', $responseHeader, null, PREG_SPLIT_NO_EMPTY);
 		}
 		return $responseBody;
