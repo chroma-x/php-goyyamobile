@@ -16,7 +16,7 @@ Simple API abstraction for sending single short messages via [Goyya Mobile](http
 ````{json}
 {
    	"require": {
-        "markenwerk/goyyamobile": "~3.0"
+        "markenwerk/goyyamobile": "~4.0"
     }
 }
 ````
@@ -120,21 +120,21 @@ $messageCount = $shortMessage->getMessageCount();
 Goyya Mobile simple API provides different types of exceptions. 
 
 - `\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
-- `Markenwerk\CommonException` sub class exceptions get thrown if curling the webservice of your Goyya Mobile provider fails for any reason. 
+- `Markenwerk\CommonException` sub class exceptions get thrown if requesting the webservice of your Goyya Mobile provider fails for any reason. 
 
 You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
 
 All exceptions have a specific code to allow you to handle the exceptions properly. 
 
-| Exception                                                | Code | Description |
-| :------------------------------------------------------- | ---: | :---------- |
-| \InvalidArgumentException                                 |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
-| \InvalidArgumentException                                 |   11 | Receiver is no valid international mobile number; does contain non digit characters |
-| \InvalidArgumentException                                 |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
-| \InvalidArgumentException                                 |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
-| \InvalidArgumentException                                 |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
-| \InvalidArgumentException                                 |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
-| Markenwerk\CommonException\NetworkException\CurlException           |   40 | A curl error occurred |
+| Exception                                                           | Code | Description |
+| :------------------------------------------------------------------ | ---: | :---------- |
+| \InvalidArgumentException                                           |   10 | Receiver is no valid international mobile number; starts not with `+` or `00` |
+| \InvalidArgumentException                                           |   11 | Receiver is no valid international mobile number; does contain non digit characters |
+| \InvalidArgumentException                                           |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
+| \InvalidArgumentException                                           |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
+| \InvalidArgumentException                                           |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
+| \InvalidArgumentException                                           |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
+| Markenwerk\CommonException\NetworkException\Base\NetworkException   |   40 | HTTP request failed |
 | Markenwerk\CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
 | Markenwerk\CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
 | Markenwerk\CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
