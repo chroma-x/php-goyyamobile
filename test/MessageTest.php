@@ -106,6 +106,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(Message::PLAN_QUALITY, $message->getSubmissionPlan());
 		$this->assertEquals(true, $message->hasDelayedSubmission());
 		$this->assertEquals(strtotime('2020-01-01 12:00:00'), $message->getSubmissionDate());
+		$this->assertNull($message->getMessageId());
+		$this->assertNull($message->getMessageCount());
 	}
 
 	public function testSubmitSuccess()
