@@ -106,19 +106,6 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(Message::PLAN_QUALITY, $message->getSubmissionPlan());
 		$this->assertEquals(true, $message->hasDelayedSubmission());
 		$this->assertEquals(strtotime('2020-01-01 12:00:00'), $message->getSubmissionDate());
-		$performTest = getenv('PERFORM_SUBMISSION_TEST');
-		if ((int)$performTest === 1) {
-			$goyyaAccountId = getenv('GOYYA_MOBILE_ACCOUNT_ID');
-			$goyyaPassword = getenv('GOYYA_MOBILE_PASSWORD');
-			if ($goyyaAccountId !== false && $goyyaPassword !== false) {
-				$message
-					->setAccountId($goyyaAccountId)
-					->setAccountPassword($goyyaPassword)
-					->submit();
-				fwrite(STDOUT, 'Submitted message id: ' . $message->getMessageId() . PHP_EOL);
-				fwrite(STDOUT, 'Submitted message count: ' . $message->getMessageCount() . PHP_EOL);
-			}
-		}
 	}
 
 	public function testSubmitSuccess()
@@ -157,6 +144,24 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 			->setAccountPassword('YOUR_ACCOUNT_PASSWORD')
 			->setDebugMode(false)
 			->setDelayedSubmission(false)
+			->setSubmissionDate(strtotime('+6 hours'))
+			->setMessageType($message::MESSAGE_TYPE_OVERLONG_SMS)
+			->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
+			->setSubmissionPlan($message::PLAN_QUALITY)
+			->setReceiver('+49151123456789')
+			->setSender('Test')
+			->submit();
+	}
+
+	public function testSubmitDelayedFailed()
+	{
+		$this->setExpectedException(get_class(new CommonException\ApiException\Base\ApiException()));
+		$message = new Message();
+		$message
+			->setAccountId('YOUR_ACCOUNT_ID')
+			->setAccountPassword('YOUR_ACCOUNT_PASSWORD')
+			->setDebugMode(false)
+			->setDelayedSubmission(true)
 			->setSubmissionDate(strtotime('+6 hours'))
 			->setMessageType($message::MESSAGE_TYPE_OVERLONG_SMS)
 			->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
