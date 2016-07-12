@@ -137,6 +137,31 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		fwrite(STDOUT, 'Submitted message count: ' . $message->getMessageCount() . PHP_EOL);
 	}
 
+	public function testSubmitAuthTokenSuccess()
+	{
+		$performTest = getenv('PERFORM_SUBMISSION_TEST');
+		if ((int)$performTest !== 1) {
+			$this->markTestSkipped('Submission test was skipped by environment.');
+		}
+		$goyyaAuthToken = getenv('GOYYA_MOBILE_AUTH_TOKEN');
+		if ($goyyaAuthToken === false) {
+			$this->markTestSkipped('Submission token auth test was skipped. No Goyya auth token found.');
+		}
+		$message = new Message();
+		$message
+			->setAuthToken($goyyaAuthToken)
+			->setDebugMode(true)
+			->setDelayedSubmission(false)
+			->setMessageType($message::MESSAGE_TYPE_TEXT_SMS)
+			->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
+			->setSubmissionPlan($message::PLAN_QUALITY)
+			->setReceiver('+49151123456789')
+			->setSender('Test')
+			->submit();
+		fwrite(STDOUT, 'Submitted message id: ' . $message->getMessageId() . PHP_EOL);
+		fwrite(STDOUT, 'Submitted message count: ' . $message->getMessageCount() . PHP_EOL);
+	}
+
 	public function testSubmitFailed()
 	{
 		$this->setExpectedException(get_class(new CommonException\ApiException\Base\ApiException()));

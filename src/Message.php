@@ -76,14 +76,21 @@ class Message
 	 *
 	 * @var string
 	 */
-	private $accountId;
+	private $accountId = null;
 
 	/**
 	 * The account password
 	 *
 	 * @var string
 	 */
-	private $accountPassword;
+	private $accountPassword = null;
+
+	/**
+	 * The account auth token
+	 *
+	 * @var string
+	 */
+	private $authToken = null;
 
 	/**
 	 * Whether the submission should get delayed.
@@ -275,6 +282,24 @@ class Message
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getAuthToken()
+	{
+		return $this->authToken;
+	}
+
+	/**
+	 * @param string $authToken
+	 * @return $this
+	 */
+	public function setAuthToken($authToken)
+	{
+		$this->authToken = $authToken;
+		return $this;
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function hasDelayedSubmission()
@@ -369,18 +394,32 @@ class Message
 		// Add some time to prevent timeouts
 		set_time_limit(15);
 
-		$requestParams = array(
-			'receiver' => $this->getReceiver(),
-			'sender' => $this->getSender(),
-			'msg' => utf8_decode($this->getMessage()),
-			'id' => $this->getAccountId(),
-			'pw' => $this->getAccountPassword(),
-			'time' => $this->getFormattedSubmissionDate(),
-			'msgtype' => $this->getMessageType(),
-			'getId' => 1,
-			'countMsg' => 1,
-			'test' => ($this->isDebugMode()) ? 1 : 0,
-		);
+		if (!is_null($this->getAuthToken())) {
+			$requestParams = array(
+				'receiver' => $this->getReceiver(),
+				'sender' => $this->getSender(),
+				'msg' => utf8_decode($this->getMessage()),
+				'authToken' => $this->getAuthToken(),
+				'time' => $this->getFormattedSubmissionDate(),
+				'msgtype' => $this->getMessageType(),
+				'getId' => 1,
+				'countMsg' => 1,
+				'test' => ($this->isDebugMode()) ? 1 : 0,
+			);
+		} else {
+			$requestParams = array(
+				'receiver' => $this->getReceiver(),
+				'sender' => $this->getSender(),
+				'msg' => utf8_decode($this->getMessage()),
+				'id' => $this->getAccountId(),
+				'pw' => $this->getAccountPassword(),
+				'time' => $this->getFormattedSubmissionDate(),
+				'msgtype' => $this->getMessageType(),
+				'getId' => 1,
+				'countMsg' => 1,
+				'test' => ($this->isDebugMode()) ? 1 : 0,
+			);
+		}
 
 		try {
 			$httpClient = new BasicHttpClient(self::GOYYA_BASE_URL);
