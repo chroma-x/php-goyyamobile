@@ -185,8 +185,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
 		$this->setExpectedException(get_class(new CommonException\ApiException\Base\ApiException()));
 		$message = new Message();
 		$message
-			->setAccountId('YOUR_ACCOUNT_ID')
-			->setAccountPassword('YOUR_ACCOUNT_PASSWORD')
+			->setAuthToken('YOUR_AUTH_TOKEN')
 			->setDebugMode(false)
 			->setDelayedSubmission(true)
 			->setSubmissionDate(strtotime('+6 hours'))
