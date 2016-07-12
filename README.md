@@ -33,15 +33,25 @@ require_once('path/to/vendor/autoload.php');
 
 ### Sending a single short message
 
-#### API Client authentication by account ID and password
+#### API Client authentication
 
-Authentication against the Goyya Mobile webservice requires a valid account ID and password. 
+Authentication against the Goyya Mobile webservice requires a valid account ID and password or a valid auth token. 
+
+##### API Client authentication by account credentials
 
 ````{php}
 $shortMessage = new Markenwerk\GoyyaMobile\Message();
 $shortMessage
 	->setAccountId('GOYYA_ACCOUNT_ID')
 	->setAccountPassword('GOYYA_ACCOUNT_PASSWORD');
+````
+
+##### API Client authentication by auth token
+
+````{php}
+$shortMessage = new Markenwerk\GoyyaMobile\Message();
+$shortMessage
+	->setAuthToken('GOYYA_AUTH_TOKEN');
 ````
 
 #### Debug mode
