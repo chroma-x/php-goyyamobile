@@ -50,8 +50,7 @@ $shortMessage
 
 ````{php}
 $shortMessage = new Markenwerk\GoyyaMobile\Message();
-$shortMessage
-	->setAuthToken('GOYYA_AUTH_TOKEN');
+$shortMessage->setAuthToken('GOYYA_AUTH_TOKEN');
 ````
 
 #### Debug mode
