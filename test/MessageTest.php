@@ -1,8 +1,8 @@
 <?php
 
-namespace Markenwerk\GoyyaMobile;
+namespace ChromaX\GoyyaMobile;
 
-use Markenwerk\CommonException;
+use ChromaX\CommonException;
 
 /**
  * Class MessageTest

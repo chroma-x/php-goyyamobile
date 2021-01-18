@@ -1,33 +1,33 @@
 {
-  "name": "markenwerk/goyyamobile",
-  "type": "library",
-  "description": "Simple API abstraction for sending single SMS via Goyya Mobile.",
-  "keywords": [
-    "SMS",
-    "Goyya"
-  ],
-  "homepage": "http://markenwerk.net/",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Martin Brecht-Precht",
-      "email": "mb@markenwerk.net",
-      "homepage": "http://markenwerk.net"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Markenwerk\\GoyyaMobile\\": "src/"
-    }
-  },
-  "require": {
-    "php": ">=5.3",
-    "lib-curl": "*",
-    "markenwerk/common-exceptions": "~3.0",
-    "markenwerk/basic-http-client": "~3.0"
-  },
-  "require-dev":{
-    "phpunit/phpunit": ">=4.8.26",
-    "codeclimate/php-test-reporter": "dev-master"
-  }
+	"name": "chroma-x/goyyamobile",
+	"type": "library",
+	"description": "Simple API abstraction for sending single SMS via Goyya Mobile.",
+	"keywords": [
+		"SMS",
+		"Goyya"
+	],
+	"homepage": "http://chroma-x.de/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Martin Brecht-Precht",
+			"email": "mb@chroma-x.de",
+			"homepage": "http://chroma-x.de"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"ChromaX\\GoyyaMobile\\": "src/"
+		}
+	},
+	"require": {
+		"php": ">=5.3",
+		"lib-curl": "*",
+		"chroma-x/common-exceptions": "~3.0",
+		"chroma-x/basic-http-client": "~3.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": ">=4.8.26",
+		"codeclimate/php-test-reporter": "dev-master"
+	}
 }

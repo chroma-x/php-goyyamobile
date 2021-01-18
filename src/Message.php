@@ -1,9 +1,9 @@
 <?php
 
-namespace Markenwerk\GoyyaMobile;
+namespace ChromaX\GoyyaMobile;
 
-use Markenwerk\BasicHttpClient\BasicHttpClient;
-use Markenwerk\CommonException;
+use ChromaX\BasicHttpClient\BasicHttpClient;
+use ChromaX\CommonException;
 
 /**
  * Class GoyyaMobile
@@ -202,7 +202,7 @@ class Message
 	 */
 	public function setMessage($message)
 	{
-		if ($this->getMessageType() == self::MESSAGE_TYPE_TEXT_SMS && strlen($message) > 160) {
+		if ($this->getMessageType() === self::MESSAGE_TYPE_TEXT_SMS && strlen($message) > 160) {
 			throw new \InvalidArgumentException('Message too long for type text SMS', 30);
 		}
 		$this->message = $message;
@@ -388,6 +388,10 @@ class Message
 
 	/**
 	 * Submits the message
+	 *
+	 * @throws CommonException\NetworkException\Base\NetworkException
+	 * @throws CommonException\ApiException\InvalidResponseException
+	 * @throws CommonException\ApiException\Base\ApiException
 	 */
 	public function submit()
 	{

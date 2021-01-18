@@ -1,13 +1,13 @@
 # PHP Goyya Mobile simple API
 
-[![Build Status](https://travis-ci.org/markenwerk/php-goyyamobile.svg?branch=master)](https://travis-ci.org/markenwerk/php-goyyamobile)
-[![Test Coverage](https://codeclimate.com/github/markenwerk/php-goyyamobile/badges/coverage.svg)](https://codeclimate.com/github/markenwerk/php-goyyamobile/coverage)
+[![Build Status](https://travis-ci.org/chroma-x/php-goyyamobile.svg?branch=master)](https://travis-ci.org/chroma-x/php-goyyamobile)
+[![Test Coverage](https://codeclimate.com/github/chroma-x/php-goyyamobile/badges/coverage.svg)](https://codeclimate.com/github/chroma-x/php-goyyamobile/coverage)
 [![Dependency Status](https://www.versioneye.com/user/projects/571f7845fcd19a0045442349/badge.svg)](https://www.versioneye.com/user/projects/571f7845fcd19a0045442349)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/2a6b072a-0373-46e6-b6f4-10fc92cc91fb.svg)](https://insight.sensiolabs.com/projects/2a6b072a-0373-46e6-b6f4-10fc92cc91fb)
-[![Code Climate](https://codeclimate.com/github/markenwerk/php-goyyamobile/badges/gpa.svg)](https://codeclimate.com/github/markenwerk/php-goyyamobile)
-[![Latest Stable Version](https://poser.pugx.org/markenwerk/goyyamobile/v/stable)](https://packagist.org/packages/markenwerk/goyyamobile)
-[![Total Downloads](https://poser.pugx.org/markenwerk/goyyamobile/downloads)](https://packagist.org/packages/markenwerk/goyyamobile)
-[![License](https://poser.pugx.org/markenwerk/goyyamobile/license)](https://packagist.org/packages/markenwerk/goyyamobile)
+[![Code Climate](https://codeclimate.com/github/chroma-x/php-goyyamobile/badges/gpa.svg)](https://codeclimate.com/github/chroma-x/php-goyyamobile)
+[![Latest Stable Version](https://poser.pugx.org/chroma-x/goyyamobile/v/stable)](https://packagist.org/packages/chroma-x/goyyamobile)
+[![Total Downloads](https://poser.pugx.org/chroma-x/goyyamobile/downloads)](https://packagist.org/packages/chroma-x/goyyamobile)
+[![License](https://poser.pugx.org/chroma-x/goyyamobile/license)](https://packagist.org/packages/chroma-x/goyyamobile)
 
 Simple API abstraction for sending single short messages via [Goyya Mobile](https://www.goyya.com).
 
@@ -17,7 +17,7 @@ Simple API abstraction for sending single short messages via [Goyya Mobile](http
 ````{json}
 {
    	"require": {
-        "markenwerk/goyyamobile": "~4.0"
+        "chroma-x/goyyamobile": "~4.0"
     }
 }
 ````
@@ -41,7 +41,7 @@ Authentication against the Goyya Mobile webservice requires a valid account ID a
 ##### API Client authentication by account credentials
 
 ````{php}
-$shortMessage = new Markenwerk\GoyyaMobile\Message();
+$shortMessage = new ChromaX\GoyyaMobile\Message();
 $shortMessage
 	->setAccountId('GOYYA_ACCOUNT_ID')
 	->setAccountPassword('GOYYA_ACCOUNT_PASSWORD');
@@ -50,7 +50,7 @@ $shortMessage
 ##### API Client authentication by auth token
 
 ````{php}
-$shortMessage = new Markenwerk\GoyyaMobile\Message();
+$shortMessage = new ChromaX\GoyyaMobile\Message();
 $shortMessage->setAuthToken('GOYYA_AUTH_TOKEN');
 ````
 
@@ -72,13 +72,13 @@ Settings up the meta data requires the following properties.
 - The senders name or mobile number in international format. Sender information should contain characters [a-z,A-Z,0-9] without whitepace only. Mobile numbers are allowed up to a length of 16 digits whith leading `00`. Sender names are allowed up to a length of 11 bytes.   
 - If you want to delay the submission of the short message to a specific time, you can set the desired time by calling `setSubmissionDate(YOUR_DESIRED_TIMESTAMP)`method and enable the delayed submission by calling `setDelayedSubmission(true)`.  
 - If your account is not bound to a specific plan, you can choose the plan you want to use (and pay) message wise. Call the `setSubmissionPlan` method with one of the following class constants as argument.  
-  - `Markenwerk\GoyyaMobile\Message::PLAN_BASIC`
-  - `Markenwerk\GoyyaMobile\Message::PLAN_ECONOMY`
-  - `Markenwerk\GoyyaMobile\Message::PLAN_QUALITY`
+  - `ChromaX\GoyyaMobile\Message::PLAN_BASIC`
+  - `ChromaX\GoyyaMobile\Message::PLAN_ECONOMY`
+  - `ChromaX\GoyyaMobile\Message::PLAN_QUALITY`
 
 > **Attention:** Check your plan to make sure you are allowed to send short messages using a name instead of a mobile number.   
   By default the delayed submission if disabled.  
-  The default plan is `Markenwerk\GoyyaMobile\Message::PLAN_BASIC`.
+  The default plan is `ChromaX\GoyyaMobile\Message::PLAN_BASIC`.
 
 ````{php}
 $shortMessage
@@ -86,7 +86,7 @@ $shortMessage
 	->setSender('SENDER_NAME_OR_MOBILE_NUMBER')
 	->setDelayedSubmission(true)
 	->setSubmissionDate(strtotime('+6 hours'))
-	->setSubmissionPlan(Markenwerk\GoyyaMobile\Message::PLAN_QUALITY);
+	->setSubmissionPlan(ChromaX\GoyyaMobile\Message::PLAN_QUALITY);
 ````
 
 #### Setting up the message content
@@ -94,17 +94,17 @@ $shortMessage
 The message content is set up by configuring the message type and content. 
 
 - The message type defines how the content is handled. Call the `setMessageType` method with one of the following class constants to control how the messages content should get delivered. 
-  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` allows sending 160 bytes. Setting content above this range throws an `Markenwerk\GoyyaMobile\Exception\InvalidArgumentException`. 
-  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS` allows sending more than 160 bytes. If neccessary the content is submitted in multiple messages.  
-  - `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
+  - `ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` allows sending 160 bytes. Setting content above this range throws an `ChromaX\GoyyaMobile\Exception\InvalidArgumentException`. 
+  - `ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS` allows sending more than 160 bytes. If neccessary the content is submitted in multiple messages.  
+  - `ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_UTF8_SMS` allows sending more than 160 bytes of unicode characters.
 - The message content is handled as defined by `setMessageType`.  
 
-> The default message type is `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
+> The default message type is `ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS`.  
 Check the [GSM 7-bit default alphabet](https://en.wikipedia.org/wiki/GSM_03.38#GSM_7-bit_default_alphabet_and_extension_table_of_3GPP_TS_23.038_.2F_GSM_03.38) to make sure your content will be displayed as expected at the receivers phone. 
 
 ````{php}
 $shortMessage
-	->setMessageType(Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
+	->setMessageType(ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 	->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~');
 ````
 
@@ -130,9 +130,9 @@ $messageCount = $shortMessage->getMessageCount();
 Goyya Mobile simple API provides different types of exceptions. 
 
 - `\InvalidArgumentException` is thrown on calling a setter with an invalid argument. 
-- `Markenwerk\CommonException` sub class exceptions get thrown if requesting the webservice of your Goyya Mobile provider fails for any reason. 
+- `ChromaX\CommonException` sub class exceptions get thrown if requesting the webservice of your Goyya Mobile provider fails for any reason. 
 
-You can find more information about [PHP Common Exceptions at Github](https://github.com/markenwerk/php-common-exceptions).
+You can find more information about [PHP Common Exceptions at Github](https://github.com/chroma-x/php-common-exceptions).
 
 All exceptions have a specific code to allow you to handle the exceptions properly. 
 
@@ -143,21 +143,21 @@ All exceptions have a specific code to allow you to handle the exceptions proper
 | \InvalidArgumentException                                           |   20 | Sender is not valid; does contain non [a-z,A-Z,0-9] characters |
 | \InvalidArgumentException                                           |   21 | Sender is not a valid mobile number; it contains digits only but is longer than 16 bytes |
 | \InvalidArgumentException                                           |   22 | Sender is not a valid name; it contains alphanumeric characters but is longer than 11 bytes |
-| \InvalidArgumentException                                           |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
-| Markenwerk\CommonException\NetworkException\Base\NetworkException   |   40 | HTTP request failed |
-| Markenwerk\CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
-| Markenwerk\CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
-| Markenwerk\CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
+| \InvalidArgumentException                                           |   30 | Message content is not valid; it is longer than 160 bytes but the message type is set to `ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_TEXT_SMS` |
+| ChromaX\CommonException\NetworkException\Base\NetworkException   |   40 | HTTP request failed |
+| ChromaX\CommonException\ApiException\InvalidResponseException    |   41 | Response HTTP status code is not in the `2xx` range |
+| ChromaX\CommonException\ApiException\Base\ApiException           |   42 | The Goyya Mobile provider webservice responded with an error |
+| ChromaX\CommonException\ApiException\UnexpectedResponseException |   43 | The Goyya Mobile provider webservice responded with an unexpected and therefore not parsable response body |
 
 ## Full example
 
 ````{php}
 require_once('path/to/vendor/autoload.php');
 
-use Markenwerk\CommonException;
+use ChromaX\CommonException;
 
 try {
-	$shortMessage = new Markenwerk\GoyyaMobile\Message();
+	$shortMessage = new ChromaX\GoyyaMobile\Message();
 	$shortMessage
 		->setAccountId('GOYYA_ACCOUNT_ID')
 		->setAccountPassword('GOYYA_ACCOUNT_PASSWORD')
@@ -166,8 +166,8 @@ try {
 		->setSender('SENDER_NAME_OR_MOBILE_NUMBER')
 		->setDelayedSubmission(true)
 		->setSubmissionDate(strtotime('+6 hours'))
-		->setSubmissionPlan(Markenwerk\GoyyaMobile\Message::PLAN_QUALITY)
-		->setMessageType(Markenwerk\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
+		->setSubmissionPlan(ChromaX\GoyyaMobile\Message::PLAN_QUALITY)
+		->setMessageType(ChromaX\GoyyaMobile\Message::MESSAGE_TYPE_OVERLONG_SMS)
 		->setMessage('Curabitur blandit tempus porttitor. ÄÖÜß~')
 		->submit();
 	echo 'Message ID ' . $shortMessage->getMessageId() . PHP_EOL;
@@ -187,7 +187,7 @@ try {
 ## Contribution
 
 Contributing to our projects is always very appreciated.  
-**But: please follow the contribution guidelines written down in the [CONTRIBUTING.md](https://github.com/markenwerk/php-goyyamobile/blob/master/CONTRIBUTING.md) document.**
+**But: please follow the contribution guidelines written down in the [CONTRIBUTING.md](https://github.com/chroma-x/php-goyyamobile/blob/master/CONTRIBUTING.md) document.**
 
 ## TODOs
 
